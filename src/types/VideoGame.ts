@@ -1,0 +1,46 @@
+import { z } from "zod";
+
+export const VideoGameSchema = z
+  .object({
+    id: z.number(),
+    age_ratings: z.array(z.number()),
+    aggregated_rating: z.number(),
+    aggregated_rating_count: z.number(),
+    alternative_names: z.array(z.number()),
+    category: z.number(),
+    collection: z.number(),
+    cover: z.number(),
+    created_at: z.number(),
+    external_games: z.array(z.number()),
+    first_release_date: z.number(),
+    follows: z.number(),
+    game_engines: z.array(z.number()),
+    game_modes: z.array(z.number()),
+    genres: z.array(z.number()),
+    involved_companies: z.array(z.number()),
+    keywords: z.array(z.number()),
+    multiplayer_modes: z.array(z.number()),
+    name: z.string(),
+    platforms: z.array(z.number()),
+    player_perspectives: z.array(z.number()),
+    rating: z.number().optional(),
+    rating_count: z.number().optional(),
+    release_dates: z.array(z.number()).optional(),
+    screenshots: z.array(z.number()),
+    similar_games: z.array(z.number()),
+    slug: z.string(),
+    storyline: z.string(),
+    summary: z.string(),
+    tags: z.array(z.number()),
+    themes: z.array(z.number()),
+    total_rating: z.number(),
+    total_rating_count: z.number(),
+    updated_at: z.number(),
+    url: z.string(),
+    videos: z.array(z.number()).optional(),
+    websites: z.array(z.number()).optional(),
+    checksum: z.string(),
+  })
+  .partial();
+
+export type VideoGame = z.infer<typeof VideoGameSchema>;

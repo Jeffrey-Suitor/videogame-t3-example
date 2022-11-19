@@ -4,36 +4,26 @@ import { trpc } from "../../utils/trpc";
 
 export const VideoGamePage: NextPage = () => {
   const router = useRouter();
-  const { videogameId } = router.query;
+  const { videogameId: videogameIdString } = router.query;
+  const videogameId = Number(videogameIdString);
 
-  if (!videogameId) {
-    return <div>Bad id</div>;
+  if (isNaN(videogameId)) {
+    return <div>Invalid videogameId</div>;
   }
 
-  const videogameList = [
-    {
-      id: "1",
-      title: "Super Mario Bros.",
-    },
-    {
-      id: "2",
-      title: "Zelda",
-    },
-  ];
+  const { data: game, isLoading } = trpc.igdb.game.useQuery(videogameId);
 
-  const videogame = videogameList.find(
-    (videogame) => videogame.id === videogameId
-  );
-
-  if (!videogame) {
-    return <div>Bad id</div>;
+  if (isLoading || !game) {
+    return <div>Loading...</div>;
   }
+
   return (
     <div>
       <h1>VideoGamePage</h1>
       <p>Find this page in `./src/pages/videogames/[id].tsx`</p>
-      <p>id: {videogame.id}</p>
-      <p>title: {videogame.title}</p>
+      <p>id: {game.id}</p>
+      <p>title: {game.name}</p>
+      <p>story: {game.storyline}</p>
     </div>
   );
 };

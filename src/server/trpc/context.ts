@@ -26,27 +26,6 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (opts: CreateNextContextOptions) => {
-  if (
-    process.env.TWITCH_SECRET === undefined ||
-    process.env.TWITCH_CLIENT_ID === undefined
-  ) {
-    throw new Error("Missing env vars");
-  }
-
-  const getIGDBTokens = await fetch(
-    "https://id.twitch.tv/oauth2/token?" +
-      new URLSearchParams({
-        client_id: process.env.TWITCH_CLIENT_ID,
-        client_secret: process.env.TWITCH_SECRET,
-        grant_type: "client_credentials",
-      }),
-    {
-      method: "POST",
-    }
-  );
-
-  const igdb = await getIGDBTokens.json();
-
   const { req, res } = opts;
 
   // Get the session from the server using the unstable_getServerSession wrapper function
@@ -54,7 +33,6 @@ export const createContext = async (opts: CreateNextContextOptions) => {
 
   return await createContextInner({
     session,
-    igdb,
   });
 };
 
