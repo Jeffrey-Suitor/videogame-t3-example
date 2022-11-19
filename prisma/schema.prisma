@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "tracing", "orderByNulls"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+enum Consoles {
+  xbox
+  playstation
+  switch
+  pc
+}
+
+model Videogame {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  releaseDate DateTime
+  console     Consoles
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model User {
+  id         String      @id @default(cuid())
+  name       String?
+  email      String?     @unique
+  videogames Videogame[]
+}
